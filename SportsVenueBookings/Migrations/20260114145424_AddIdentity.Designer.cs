@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportsVenueBookings.Data;
 
@@ -11,9 +12,11 @@ using SportsVenueBookings.Data;
 namespace SportsVenueBookings.Migrations
 {
     [DbContext(typeof(SportsVenueBookingsContext))]
-    partial class SportsVenueBookingsContextModelSnapshot : ModelSnapshot
+    [Migration("20260114145424_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,20 +50,6 @@ namespace SportsVenueBookings.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -148,13 +137,6 @@ namespace SportsVenueBookings.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
-                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -188,21 +170,12 @@ namespace SportsVenueBookings.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("DateofBirth")
-                        .HasColumnType("date");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -248,27 +221,6 @@ namespace SportsVenueBookings.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "935fdcd9-304e-424e-8e43-591afa5da550",
-                            DateofBirth = new DateOnly(1, 1, 1),
-                            Email = "admin@localhost.com",
-                            EmailConfirmed = true,
-                            FirstName = "Admin",
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELgbtZZrj43GvS8XR1mnPN0G/97MYcpcYLz/0n0lEDGYL8gVRAhkk4T8Ph/rAxGM/w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "63039510-d4a5-4119-b14d-67942560f9a8",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
-                        });
                 });
 
             modelBuilder.Entity("SportsVenueBookings.Domain.Booking", b =>
@@ -463,9 +415,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Available",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7564),
-                            DateUpdated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7564),
-                            TimeSlot = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7553),
+                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4870),
+                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4871),
+                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4860),
                             UpdatedBy = "System"
                         },
                         new
@@ -475,9 +427,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Not Available",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7567),
-                            DateUpdated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7568),
-                            TimeSlot = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7566),
+                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4874),
+                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4874),
+                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4873),
                             UpdatedBy = "System"
                         },
                         new
@@ -487,9 +439,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Available",
                             CourtNumber = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7570),
-                            DateUpdated = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7570),
-                            TimeSlot = new DateTime(2026, 1, 14, 23, 7, 8, 509, DateTimeKind.Local).AddTicks(7569),
+                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4876),
+                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4876),
+                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4875),
                             UpdatedBy = "System"
                         });
                 });

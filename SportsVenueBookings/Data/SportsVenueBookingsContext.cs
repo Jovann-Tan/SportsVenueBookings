@@ -1,32 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SportsVenueBookings.Configurations.Entities;
+using SportsVenueBookings.Data;
 using SportsVenueBookings.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace SportsVenueBookings.Data
 {
-    public class SportsVenueBookingsContext : DbContext
+    public class SportsVenueBookingsContext(DbContextOptions<SportsVenueBookingsContext> options) : IdentityDbContext<SportsVenueBookingsUser>(options)
     {
-        public SportsVenueBookingsContext (DbContextOptions<SportsVenueBookingsContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<SportsVenueBookings.Domain.Customers> Customers { get; set; } = default!;
-        public DbSet<SportsVenueBookings.Domain.Booking> Booking { get; set; } = default!;
-        public DbSet<SportsVenueBookings.Domain.Payment> Payment { get; set; } = default!;
-        public DbSet<SportsVenueBookings.Domain.Staff> Staff { get; set; } = default!;
-        public DbSet<SportsVenueBookings.Domain.Venue> Venue { get; set; } = default!;
-
+        public DbSet<Booking> Booking { get; set; } = default!;
+        public DbSet<Customers> Customers { get; set; } = default!;
+        public DbSet<Payment> Payment { get; set; } = default!;
+        public DbSet<Staff> Staff { get; set; } = default!;
+        public DbSet<Venue> Venue { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.ApplyConfiguration(new VenueSeed());
+            builder.ApplyConfiguration(new UserSeed());
+            builder.ApplyConfiguration(new UserRoleSeed());
+            builder.ApplyConfiguration(new RoleSeed());
         }
     }
 }
