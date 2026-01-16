@@ -1,6 +1,7 @@
 ﻿@page "/bookings/create"
 @using Microsoft.EntityFrameworkCore
 @using SportsVenueBookings.Domain
+@using SportsVenueBookings.Data
 @inject IDbContextFactory<SportsVenueBookings.Data.SportsVenueBookingsContext> DbFactory
 @inject NavigationManager NavigationManager
 
@@ -21,15 +22,20 @@
                 <ValidationMessage For="() => Booking.Sport" class="text-danger" /> 
             </div>        
             <div class="mb-3">
-                <label for="venueid" class="form-label">VenueId:</label> 
-                <InputNumber id="venueid" @bind-Value="Booking.VenueId" class="form-control" /> 
-                <ValidationMessage For="() => Booking.VenueId" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="customerid" class="form-label">CustomerId:</label> 
-                <InputNumber id="customerid" @bind-Value="Booking.CustomerId" class="form-control" /> 
-                <ValidationMessage For="() => Booking.CustomerId" class="text-danger" /> 
-            </div>        
+                <label for="venueid" class="form-label">Venue:</label> 
+                @* <InputNumber id="venueid" @bind-Value="Booking.VenueId" class="form-control" /> 
+                <ValidationMessage For="() => Booking.VenueId" class="text-danger" /> *@
+                <InputSelect id="venueid" @bind-Value="Booking.VenueId" class="form-control">
+                    <option value="">-- Select Venue --</option>
+                    @if (Venues != null)
+                    {
+                        foreach (var venue in Venues)
+                        {
+                            <option value="@venue.Id">@venue.Address @venue.TimeSlot Court Number : @venue.CourtNumber</option>
+                        }
+                    }
+                </InputSelect>
+            </div>              
             <div class="mb-3">
                 <label for="paymentid" class="form-label">PaymentId:</label> 
                 <InputNumber id="paymentid" @bind-Value="Booking.PaymentId" class="form-control" /> 
@@ -67,6 +73,17 @@
 @code {
     [SupplyParameterFromForm]
     private Booking Booking { get; set; } = new();
+
+    private SportsVenueBookingsContext context = default!;
+    private IList<Venue> Venues;
+    private IList<Payment> Payments;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+        Venues = context.Venue.ToList();
+        Payments = context.Payment.ToList();
+    }
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddBooking()

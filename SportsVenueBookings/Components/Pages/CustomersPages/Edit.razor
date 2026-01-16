@@ -28,11 +28,6 @@ else
                     <ValidationMessage For="() => Customers.Name" class="text-danger" />
                 </div>
                 <div class="mb-3">
-                    <label for="age" class="form-label">Age:</label>
-                    <InputNumber id="age" @bind-Value="Customers.Age" class="form-control" />
-                    <ValidationMessage For="() => Customers.Age" class="text-danger" />
-                </div>
-                <div class="mb-3">
                     <label for="contactnumber" class="form-label">ContactNumber:</label>
                     <InputNumber id="contactnumber" @bind-Value="Customers.ContactNumber" class="form-control" />
                     <ValidationMessage For="() => Customers.ContactNumber" class="text-danger" />
@@ -79,8 +74,22 @@ else
     [SupplyParameterFromForm]
     private Customers? Customers { get; set; }
 
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+
     protected override async Task OnInitializedAsync()
     {
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
+
         using var context = DbFactory.CreateDbContext();
         Customers ??= await context.Customers.FirstOrDefaultAsync(m => m.Id == Id);
 
@@ -95,6 +104,10 @@ else
     private async Task UpdateCustomers()
     {
         using var context = DbFactory.CreateDbContext();
+        //Set the userId to the UpdatedBy fields.
+        Customers.UpdatedBy = userId;
+        //Set the DateUpdated fields to the current date and time.
+        Customers.DateUpdated = DateTime.Now;
         context.Attach(Customers!).State = EntityState.Modified;
 
         try

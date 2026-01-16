@@ -6,6 +6,8 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<SportsVenueBookings.Data.SportsVenueBookingsContext> DbFactory
 
+@attribute [Authorize(Roles = "Administrator, User")]
+
 <PageTitle>Index</PageTitle>
 
 <h1>Index</h1>
@@ -16,7 +18,6 @@
 
 <QuickGrid Class="table" Items="context.Customers">
     <PropertyColumn Property="customers => customers.Name" />
-    <PropertyColumn Property="customers => customers.Age" />
     <PropertyColumn Property="customers => customers.ContactNumber" />
     <PropertyColumn Property="customers => customers.Email" />
     <PropertyColumn Property="customers => customers.DateCreated" />
@@ -26,8 +27,10 @@
 
     <TemplateColumn Context="customers">
         <a href="@($"customers/edit?id={customers.Id}")">Edit</a> |
-        <a href="@($"customers/details?id={customers.Id}")">Details</a> |
-        <a href="@($"customers/delete?id={customers.Id}")">Delete</a>
+        <a href="@($"customers/details?id={customers.Id}")">Details</a>
+        <AuthorizeView Roles="Administrator">
+        | <a href="@($"customers/delete?id={customers.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

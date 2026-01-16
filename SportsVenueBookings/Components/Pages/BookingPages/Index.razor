@@ -3,8 +3,11 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using SportsVenueBookings.Domain
 @using SportsVenueBookings.Data
+@using Microsoft.AspNetCore.Authorization
 @implements IAsyncDisposable
 @inject IDbContextFactory<SportsVenueBookings.Data.SportsVenueBookingsContext> DbFactory
+
+@attribute [Authorize(Roles = "Administrator, User")]
 
 <PageTitle>Index</PageTitle>
 
@@ -26,8 +29,10 @@
 
     <TemplateColumn Context="booking">
         <a href="@($"bookings/edit?id={booking.Id}")">Edit</a> |
-        <a href="@($"bookings/details?id={booking.Id}")">Details</a> |
-        <a href="@($"bookings/delete?id={booking.Id}")">Delete</a>
+        <a href="@($"bookings/details?id={booking.Id}")">Details</a> 
+        <AuthorizeView Roles="Administrator">
+            | <a href="@($"bookings/delete?id={booking.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 
