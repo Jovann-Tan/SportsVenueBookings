@@ -5,7 +5,7 @@
 @using SportsVenueBookings.Data
 @implements IAsyncDisposable
 @inject IDbContextFactory<SportsVenueBookings.Data.SportsVenueBookingsContext> DbFactory
-
+@rendermode InteractiveServer
 @attribute [Authorize(Roles = "Administrator, User")]
 
 <PageTitle>Index</PageTitle>
@@ -17,18 +17,20 @@
 </p>
 
 <QuickGrid Class="table" Items="context.Payment">
-    <PropertyColumn Property="payment => payment.CardNumber" />
+    <PropertyColumn Property="payment => payment.CardNumber"/>
     <PropertyColumn Property="payment => payment.Code" />
-    <PropertyColumn Property="payment => payment.Expiration" />
-    <PropertyColumn Property="payment => payment.DateCreated" />
-    <PropertyColumn Property="payment => payment.DateUpdated" />
-    <PropertyColumn Property="payment => payment.CreatedBy" />
-    <PropertyColumn Property="payment => payment.UpdatedBy" />
+    <PropertyColumn Property="payment => payment.Expiration" Format ="dd/MM/yyyy"/>
+    <PropertyColumn Property="payment => payment.DateCreated"   />
+    <PropertyColumn Property="payment => payment.DateUpdated"   />
+    <PropertyColumn Property="payment => payment.CreatedBy"   />
+    <PropertyColumn Property="payment => payment.UpdatedBy"   />
 
     <TemplateColumn Context="payment">
         <a href="@($"payments/edit?id={payment.Id}")">Edit</a> |
-        <a href="@($"payments/details?id={payment.Id}")">Details</a> |
-        <a href="@($"payments/delete?id={payment.Id}")">Delete</a>
+        <a href="@($"payments/details?id={payment.Id}")">Details</a> 
+        <AuthorizeView Roles="Administrator">
+            |<a href="@($"payments/delete?id={payment.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

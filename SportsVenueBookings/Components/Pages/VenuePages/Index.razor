@@ -5,6 +5,8 @@
 @using SportsVenueBookings.Data
 @implements IAsyncDisposable
 @inject IDbContextFactory<SportsVenueBookings.Data.SportsVenueBookingsContext> DbFactory
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrator, User")]
 
 <PageTitle>Index</PageTitle>
 
@@ -17,17 +19,19 @@
 <QuickGrid Class="table" Items="context.Venue">
     <PropertyColumn Property="venue => venue.CourtNumber" />
     <PropertyColumn Property="venue => venue.Address" />
-    <PropertyColumn Property="venue => venue.TimeSlot" />
+    <PropertyColumn Property="venue => venue.TimeSlot"   />
     <PropertyColumn Property="venue => venue.Availability" />
-    <PropertyColumn Property="venue => venue.DateCreated" />
-    <PropertyColumn Property="venue => venue.DateUpdated" />
-    <PropertyColumn Property="venue => venue.CreatedBy" />
-    <PropertyColumn Property="venue => venue.UpdatedBy" />
+    <PropertyColumn Property="venue => venue.DateCreated"   />
+    <PropertyColumn Property="venue => venue.DateUpdated"   />
+    <PropertyColumn Property="venue => venue.CreatedBy"   />
+    <PropertyColumn Property="venue => venue.UpdatedBy"   />
 
     <TemplateColumn Context="venue">
-        <a href="@($"venues/edit?id={venue.Id}")">Edit</a> |
-        <a href="@($"venues/details?id={venue.Id}")">Details</a> |
-        <a href="@($"venues/delete?id={venue.Id}")">Delete</a>
+        <AuthorizeView Roles="Administrator">
+            <a href="@($"venues/edit?id={venue.Id}")">Edit</a> |
+            <a href="@($"venues/details?id={venue.Id}")">Details</a> |
+            <a href="@($"venues/delete?id={venue.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

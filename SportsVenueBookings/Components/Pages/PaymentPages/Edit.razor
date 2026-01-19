@@ -68,6 +68,11 @@ else
 </div>
 
 @code {
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+
     [SupplyParameterFromQuery]
     private int Id { get; set; }
 
@@ -77,6 +82,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
         Payment ??= await context.Payment.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (Payment is null)
@@ -90,6 +103,10 @@ else
     private async Task UpdatePayment()
     {
         using var context = DbFactory.CreateDbContext();
+        //Set the userId to the UpdatedBy fields.
+        Payment.UpdatedBy = userId;
+        //Set the DateUpdated fields to the current date and time.
+        Payment.DateUpdated = DateTime.Now;
         context.Attach(Payment!).State = EntityState.Modified;
 
         try

@@ -12,8 +12,8 @@ using SportsVenueBookings.Data;
 namespace SportsVenueBookings.Migrations
 {
     [DbContext(typeof(SportsVenueBookingsContext))]
-    [Migration("20260114145424_AddIdentity")]
-    partial class AddIdentity
+    [Migration("20260119024019_changeCard")]
+    partial class changeCard
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,20 @@ namespace SportsVenueBookings.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +151,13 @@ namespace SportsVenueBookings.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -166,9 +187,15 @@ namespace SportsVenueBookings.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("DateofBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -176,6 +203,12 @@ namespace SportsVenueBookings.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -221,6 +254,28 @@ namespace SportsVenueBookings.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            Age = 0,
+                            ConcurrencyStamp = "74ccc360-93a8-49df-923c-8e8bd4076797",
+                            DateofBirth = new DateOnly(1, 1, 1),
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB0w+EVT/iRzYiT8cLx9ygs/aOvt1mOhZs0uhjeECxuP2Z9lZAJg4JyXzoUpLB9kXw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0a958f44-9fb7-44c8-a8a6-c3da15d75db7",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
                 });
 
             modelBuilder.Entity("SportsVenueBookings.Domain.Booking", b =>
@@ -268,9 +323,6 @@ namespace SportsVenueBookings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
                     b.Property<int>("ContactNumber")
                         .HasColumnType("int");
 
@@ -305,8 +357,8 @@ namespace SportsVenueBookings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CardNumber")
-                        .HasColumnType("long");
+                    b.Property<long>("CardNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Code")
                         .HasColumnType("int");
@@ -412,12 +464,12 @@ namespace SportsVenueBookings.Migrations
                         {
                             Id = 1,
                             Address = "Over Here",
-                            Availability = "Available",
+                            Availability = "Avaliable",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4870),
-                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4871),
-                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4860),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9044),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9053),
+                            TimeSlot = new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             UpdatedBy = "System"
                         },
                         new
@@ -427,9 +479,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Not Available",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4874),
-                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4874),
-                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4873),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9057),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9057),
+                            TimeSlot = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9056),
                             UpdatedBy = "System"
                         },
                         new
@@ -439,9 +491,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Available",
                             CourtNumber = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4876),
-                            DateUpdated = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4876),
-                            TimeSlot = new DateTime(2026, 1, 14, 22, 54, 23, 986, DateTimeKind.Local).AddTicks(4875),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9060),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9060),
+                            TimeSlot = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9059),
                             UpdatedBy = "System"
                         });
                 });

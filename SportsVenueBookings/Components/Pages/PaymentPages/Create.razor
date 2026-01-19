@@ -16,7 +16,7 @@
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
-                <label for="cardnumber" class="form-label">CardNumber:</label> 
+                <label for="cardnumber" class="form-label">Card Number:</label> 
                 <InputNumber id="cardnumber" @bind-Value="Payment.CardNumber" class="form-control" /> 
                 <ValidationMessage For="() => Payment.CardNumber" class="text-danger" /> 
             </div>        
@@ -30,22 +30,22 @@
                 <InputDate id="expiration" @bind-Value="Payment.Expiration" class="form-control" /> 
                 <ValidationMessage For="() => Payment.Expiration" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Payment.DateCreated" class="form-control" /> 
                 <ValidationMessage For="() => Payment.DateCreated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Payment.DateUpdated" class="form-control" /> 
                 <ValidationMessage For="() => Payment.DateUpdated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="createdby" class="form-label">CreatedBy:</label> 
                 <InputText id="createdby" @bind-Value="Payment.CreatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Payment.CreatedBy" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="updatedby" class="form-label">UpdatedBy:</label> 
                 <InputText id="updatedby" @bind-Value="Payment.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Payment.UpdatedBy" class="text-danger" /> 
@@ -60,6 +60,24 @@
 </div>
 
 @code {
+
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
+    }
+
     [SupplyParameterFromForm]
     private Payment Payment { get; set; } = new();
 
@@ -67,6 +85,13 @@
     private async Task AddPayment()
     {
         using var context = DbFactory.CreateDbContext();
+
+        Payment.CreatedBy = userId;
+        Payment.UpdatedBy = userId;
+        //Set the DateCreated and DateUpdated fields to the current date and time.
+        Payment.DateCreated = DateTime.Now;
+        Payment.DateUpdated = DateTime.Now;
+        
         context.Payment.Add(Payment);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/payments");

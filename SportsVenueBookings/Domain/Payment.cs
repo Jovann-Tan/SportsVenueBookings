@@ -2,7 +2,7 @@
 {
     public class Payment : BaseDomainModel
     {
-        public int CardNumber { get; set; }
+        public long CardNumber { get; set; }
         public int Code { get; set; }
         public DateOnly Expiration { get; set; }
     }

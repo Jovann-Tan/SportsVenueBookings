@@ -57,7 +57,7 @@ namespace SportsVenueBookings.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CardNumber = table.Column<int>(type: "int", nullable: false),
+                    CardNumber = table.Column<int>(type: "long", nullable: false),
                     Code = table.Column<int>(type: "int", nullable: false),
                     Expiration = table.Column<DateOnly>(type: "date", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),

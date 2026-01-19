@@ -18,8 +18,16 @@
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
                 <label for="sport" class="form-label">Sport:</label> 
-                <InputText id="sport" @bind-Value="Booking.Sport" class="form-control" /> 
-                <ValidationMessage For="() => Booking.Sport" class="text-danger" /> 
+                @* <InputText id="sport" @bind-Value="Booking.Sport" class="form-control" /> 
+                <ValidationMessage For="() => Booking.Sport" class="text-danger" />  *@
+                <InputSelect id="sport" @bind-Value="Booking.Sport" class="form-control">
+                    <option value="">-- Select Sport --</option>
+                    <option value="Badminton">Badminton</option>
+                    <option value="Basketball">BasketBall</option>
+                    <option value="Football">Football</option>
+                    <option value="Table Tennis">Table Tennis</option>
+                    <option value="Bowling">Bowling</option>
+                </InputSelect>
             </div>        
             <div class="mb-3">
                 <label for="venueid" class="form-label">Venue:</label> 
@@ -37,26 +45,38 @@
                 </InputSelect>
             </div>              
             <div class="mb-3">
-                <label for="paymentid" class="form-label">PaymentId:</label> 
-                <InputNumber id="paymentid" @bind-Value="Booking.PaymentId" class="form-control" /> 
-                <ValidationMessage For="() => Booking.PaymentId" class="text-danger" /> 
+                <label for="paymentid" class="form-label">Payment:</label> 
+                @* <InputNumber id="paymentid" @bind-Value="Booking.PaymentId" class="form-control" /> 
+                <ValidationMessage For="() => Booking.PaymentId" class="text-danger" />  *@
+                <InputSelect id="paymentid" @bind-Value="Booking.PaymentId" class="form-control">
+                    <option value="">-- Select Payment --</option>
+                    @if (Payments != null)
+                    {
+                        foreach (var payment in Payments)
+                        {
+                            <option value="@payment.Id">Card Number : @payment.CardNumber 
+                                                        Expiration Date : @payment.Expiration 
+                                                        CVV : @payment.Code</option>
+                        }
+                    }
+                </InputSelect>
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Booking.DateCreated" class="form-control" /> 
                 <ValidationMessage For="() => Booking.DateCreated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Booking.DateUpdated" class="form-control" /> 
                 <ValidationMessage For="() => Booking.DateUpdated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="createdby" class="form-label">CreatedBy:</label> 
                 <InputText id="createdby" @bind-Value="Booking.CreatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Booking.CreatedBy" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="updatedby" class="form-label">UpdatedBy:</label> 
                 <InputText id="updatedby" @bind-Value="Booking.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Booking.UpdatedBy" class="text-danger" /> 
@@ -78,17 +98,37 @@
     private IList<Venue> Venues;
     private IList<Payment> Payments;
 
-    protected override void OnInitialized()
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+@inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
     {
-        context = DbFactory.CreateDbContext();
-        Venues = context.Venue.ToList();
-        Payments = context.Payment.ToList();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
+        {
+            context = DbFactory.CreateDbContext();
+            Venues = context.Venue.ToList();
+            Payments = context.Payment.ToList();
+        }
     }
-
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddBooking()
     {
         using var context = DbFactory.CreateDbContext();
+        //Set the userId to the CreatedBy and UpdatedBy fields.
+        Booking.CreatedBy = userId;
+        Booking.UpdatedBy = userId;
+        //Set the DateCreated and DateUpdated fields to the current date and time.
+        Booking.DateCreated = DateTime.Now;
+        Booking.DateUpdated = DateTime.Now;
         context.Booking.Add(Booking);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/bookings");

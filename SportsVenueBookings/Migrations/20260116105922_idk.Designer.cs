@@ -358,7 +358,7 @@ namespace SportsVenueBookings.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CardNumber")
-                        .HasColumnType("int");
+                        .HasColumnType("long");
 
                     b.Property<int>("Code")
                         .HasColumnType("int");

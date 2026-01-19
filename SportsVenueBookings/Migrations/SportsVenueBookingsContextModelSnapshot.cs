@@ -258,7 +258,7 @@ namespace SportsVenueBookings.Migrations
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
                             Age = 0,
-                            ConcurrencyStamp = "a5555b0c-3413-4e17-a3b9-2b40d33bb312",
+                            ConcurrencyStamp = "74ccc360-93a8-49df-923c-8e8bd4076797",
                             DateofBirth = new DateOnly(1, 1, 1),
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
@@ -267,9 +267,9 @@ namespace SportsVenueBookings.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIRdQuFQYd5+aJGMvM8gFPYvRDA/Fm35/9RHY7aOvfsxCK+tJn13v4npgiW8cQwPlg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB0w+EVT/iRzYiT8cLx9ygs/aOvt1mOhZs0uhjeECxuP2Z9lZAJg4JyXzoUpLB9kXw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6d7014b7-f340-4914-a4f0-3d50cc78d600",
+                            SecurityStamp = "0a958f44-9fb7-44c8-a8a6-c3da15d75db7",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -354,8 +354,8 @@ namespace SportsVenueBookings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CardNumber")
-                        .HasColumnType("int");
+                    b.Property<long>("CardNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Code")
                         .HasColumnType("int");
@@ -461,12 +461,12 @@ namespace SportsVenueBookings.Migrations
                         {
                             Id = 1,
                             Address = "Over Here",
-                            Availability = "Available",
+                            Availability = "Avaliable",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6644),
-                            DateUpdated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6645),
-                            TimeSlot = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6631),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9044),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9053),
+                            TimeSlot = new DateTime(2026, 1, 20, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             UpdatedBy = "System"
                         },
                         new
@@ -476,9 +476,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Not Available",
                             CourtNumber = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6648),
-                            DateUpdated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6649),
-                            TimeSlot = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6648),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9057),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9057),
+                            TimeSlot = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9056),
                             UpdatedBy = "System"
                         },
                         new
@@ -488,9 +488,9 @@ namespace SportsVenueBookings.Migrations
                             Availability = "Available",
                             CourtNumber = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6651),
-                            DateUpdated = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6651),
-                            TimeSlot = new DateTime(2026, 1, 16, 18, 59, 21, 635, DateTimeKind.Local).AddTicks(6650),
+                            DateCreated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9060),
+                            DateUpdated = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9060),
+                            TimeSlot = new DateTime(2026, 1, 19, 10, 40, 18, 699, DateTimeKind.Local).AddTicks(9059),
                             UpdatedBy = "System"
                         });
                 });

@@ -15,7 +15,7 @@ namespace SportsVenueBookings.Configurations.Entities
                     CourtNumber = 1,
                     Address = "Over Here",
                     TimeSlot = DateTime.Parse("1/20/2026 6:00:00 PM"),
-                    Availability = "Available",
+                    Availability = "Avaliable",
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = "System",
